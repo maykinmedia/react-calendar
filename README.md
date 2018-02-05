@@ -1,7 +1,10 @@
 react-calendar
 ==============
-[![NPM version][npm-image]][npm-url]
-[![Downloads][downloads-image]][downloads-url]
+
+# Warning: package unmaintained!
+
+This fork is a temporarily solution until we can nuke the dependency from our
+project.
 
 Calendars for React v15.
 

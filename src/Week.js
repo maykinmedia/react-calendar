@@ -1,5 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
 
 import { getMods, getModsByCompType } from './util';
 import { daysOfWeek } from './dateUtils';

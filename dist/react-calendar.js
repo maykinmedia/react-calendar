@@ -69,7 +69,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 
-	var _Month = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./src/Month\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _Month = __webpack_require__(16);
 
 	Object.defineProperty(exports, 'Month', {
 	  enumerable: true,
@@ -78,7 +78,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 
-	var _Week = __webpack_require__(17);
+	var _Week = __webpack_require__(18);
 
 	Object.defineProperty(exports, 'Week', {
 	  enumerable: true,
@@ -105,7 +105,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 
-	var _dateUtils = __webpack_require__(18);
+	var _dateUtils = __webpack_require__(17);
 
 	Object.defineProperty(exports, 'dateUtils', {
 	  enumerable: true,
@@ -146,7 +146,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util = __webpack_require__(15);
 
-	var _Month = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Month\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _Month = __webpack_require__(16);
 
 	var _Month2 = _interopRequireDefault(_Month);
 
@@ -1622,8 +1622,226 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ }),
-/* 16 */,
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _classnames = __webpack_require__(14);
+
+	var _classnames2 = _interopRequireDefault(_classnames);
+
+	var _propTypes = __webpack_require__(3);
+
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+
+	var _dateUtils = __webpack_require__(17);
+
+	var _util = __webpack_require__(15);
+
+	var _Week = __webpack_require__(18);
+
+	var _Week2 = _interopRequireDefault(_Week);
+
+	var _Day = __webpack_require__(19);
+
+	var _Day2 = _interopRequireDefault(_Day);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var clsPrefix = 'rc-Month';
+
+	var renderWeekHeader = function renderWeekHeader(props) {
+	  if (!props.weekdayNames) {
+	    return null;
+	  }
+	  return _react2.default.createElement(
+	    'div',
+	    { className: clsPrefix + '-weekdays' },
+	    (0, _dateUtils.daysOfWeek)(props.date).map(function (weekday, i) {
+	      return _react2.default.createElement(
+	        'div',
+	        { key: 'weekday-header-' + i, className: (0, _classnames2.default)(clsPrefix + '-weekdays-weekday') },
+	        weekday.format(props.weekdayFormat)
+	      );
+	    })
+	  );
+	};
+
+	var renderHeader = function renderHeader(props) {
+	  if (props.renderHeader) {
+	    return props.renderHeader(props);
+	  }
+
+	  if (!props.monthNames) {
+	    return null;
+	  }
+
+	  return _react2.default.createElement(
+	    'header',
+	    { key: 'header', className: (0, _classnames2.default)(clsPrefix + '-header') },
+	    props.date.format(props.monthNameFormat)
+	  );
+	};
+
+	var Month = function Month(props) {
+	  var date = props.date,
+	      weekNumbers = props.weekNumbers;
+
+	  var edges = (0, _dateUtils.monthEdges)(date);
+
+	  var mods = props.mods,
+	      day = props.day,
+	      week = props.week;
+
+	  var clsMods = void 0,
+	      events = void 0;
+
+	  if (!props.day) {
+	    day = (0, _util.getModsByCompType)('day', mods);
+	  }
+
+	  if (!props.week) {
+	    week = (0, _util.getModsByCompType)('week', mods);
+	  }
+
+	  if (!props.day || !props.week) {
+	    // this means we're probably just rendering a single month and need to filter our component types again.
+	    mods = (0, _util.getModsByCompType)('month', mods);
+	  }
+
+	  var fWeekMods = week.filter(function (mod, j) {
+	    return mod.date ? mod.date.isSame(date, 'month') : true;
+	  });
+	  var fDayMods = day.filter(function (mod, k) {
+	    return mod.date ? mod.date.isSame(date, 'month') : true;
+	  });
+
+	  var modifiers = (0, _util.getMods)(mods, date, clsPrefix, 'month');
+
+	  if (modifiers) {
+	    clsMods = modifiers.clsMods;
+	    events = modifiers.events;
+	  }
+
+	  return _react2.default.createElement(
+	    'div',
+	    _extends({ className: (0, _classnames2.default)(clsPrefix, clsMods) }, events),
+	    renderHeader(props),
+	    renderWeekHeader(props),
+	    (0, _dateUtils.weeksOfMonth)(props.date).map(function (wDate, i) {
+	      return _react2.default.createElement(_Week2.default, { key: 'week-' + i,
+	        date: wDate,
+	        edges: edges,
+	        weekNumbers: weekNumbers,
+	        mods: fWeekMods,
+	        day: fDayMods });
+	    })
+	  );
+	};
+
+	Month.propTypes = {
+	  monthNames: _propTypes2.default.bool,
+	  monthNameFormat: _propTypes2.default.string,
+	  weekdayNames: _propTypes2.default.bool,
+	  weekdayFormat: _propTypes2.default.string,
+	  mod: _propTypes2.default.object
+	};
+
+	Month.defaultProps = {
+	  monthNames: true,
+	  monthNameFormat: 'MMMM YYYY',
+	  weekdayNames: true,
+	  weekdayFormat: 'dd'
+	};
+
+	exports.default = Month;
+
+/***/ }),
 /* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.weeksOfMonth = weeksOfMonth;
+	exports.monthEdges = monthEdges;
+	exports.daysOfWeek = daysOfWeek;
+
+	var _moment = __webpack_require__(13);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	/** Returns moment objects for first day of each week of the month.
+	 *  Can return moments from previous month if week start is in them.
+	 *  @param {string|Date|moment} month any date in a month to create weeks for
+	 */
+	function weeksOfMonth(month) {
+	  var thisMonth = month.month();
+	  var weeks = [];
+
+	  month = (0, _moment2.default)(month).startOf('month').startOf('week');
+
+	  do {
+	    weeks.push(month.clone());
+	    month.add(1, 'week');
+	  } while (month.month() === thisMonth);
+
+	  return weeks;
+	}
+
+	/** Returns moments for each day that is not in the month, but is part of
+	 *  weeks that are.
+	 *  Week contents is locale aware.
+	 *  @param {string|Date|moment} moment any date in the target month
+	 */
+	function monthEdges(month) {
+	  var start = (0, _moment2.default)(month).startOf('month').startOf('week');
+	  var end = (0, _moment2.default)(month).endOf('month').endOf('week');
+
+	  var result = [];
+
+	  while (start.month() !== month.month()) {
+	    result.push(start.clone());
+	    start.add(1, 'day');
+	  }
+
+	  while (end.month() !== month.month()) {
+	    result.push(end.clone());
+	    end.subtract(1, 'day');
+	  }
+
+	  return result;
+	}
+
+	/** Returns moment objects for each day of the week.
+	 *  Ordering is locale aware.
+	 *  @param {string|Date|moment} week any date in a week to create days for
+	 */
+	function daysOfWeek(week) {
+	  week = (0, _moment2.default)(week).startOf('week');
+
+	  return Array(7).fill(0).map(function (n, i) {
+	    return week.clone().add(n + i, 'day');
+	  });
+	}
+
+/***/ }),
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1648,7 +1866,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _util = __webpack_require__(15);
 
-	var _dateUtils = __webpack_require__(18);
+	var _dateUtils = __webpack_require__(17);
 
 	var _Day = __webpack_require__(19);
 
@@ -1746,79 +1964,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	exports.default = Week;
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.weeksOfMonth = weeksOfMonth;
-	exports.monthEdges = monthEdges;
-	exports.daysOfWeek = daysOfWeek;
-
-	var _moment = __webpack_require__(13);
-
-	var _moment2 = _interopRequireDefault(_moment);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	/** Returns moment objects for first day of each week of the month.
-	 *  Can return moments from previous month if week start is in them.
-	 *  @param {string|Date|moment} month any date in a month to create weeks for
-	 */
-	function weeksOfMonth(month) {
-	  var thisMonth = month.month();
-	  var weeks = [];
-
-	  month = (0, _moment2.default)(month).startOf('month').startOf('week');
-
-	  do {
-	    weeks.push(month.clone());
-	    month.add(1, 'week');
-	  } while (month.month() === thisMonth);
-
-	  return weeks;
-	}
-
-	/** Returns moments for each day that is not in the month, but is part of
-	 *  weeks that are.
-	 *  Week contents is locale aware.
-	 *  @param {string|Date|moment} moment any date in the target month
-	 */
-	function monthEdges(month) {
-	  var start = (0, _moment2.default)(month).startOf('month').startOf('week');
-	  var end = (0, _moment2.default)(month).endOf('month').endOf('week');
-
-	  var result = [];
-
-	  while (start.month() !== month.month()) {
-	    result.push(start.clone());
-	    start.add(1, 'day');
-	  }
-
-	  while (end.month() !== month.month()) {
-	    result.push(end.clone());
-	    end.subtract(1, 'day');
-	  }
-
-	  return result;
-	}
-
-	/** Returns moment objects for each day of the week.
-	 *  Ordering is locale aware.
-	 *  @param {string|Date|moment} week any date in a week to create days for
-	 */
-	function daysOfWeek(week) {
-	  week = (0, _moment2.default)(week).startOf('week');
-
-	  return Array(7).fill(0).map(function (n, i) {
-	    return week.clone().add(n + i, 'day');
-	  });
-	}
 
 /***/ }),
 /* 19 */

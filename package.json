@@ -57,7 +57,7 @@
     "webpack": "^1.4.3",
     "webpack-dev-server": "^1.14.1"
   },
-  "main": "react-calendar.js",
+  "main": "dist/react-calendar.js",
   "scripts": {
     "clean": "rimraf build dist",
     "test": "npm run umd && NODE_ENV=test mocha",

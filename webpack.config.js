@@ -6,7 +6,7 @@ var config = {
     path: 'dist',
     filename: 'react-calendar.js',
     library: 'ReactCalendar',
-    libraryTarget: 'umd'
+    libraryTarget: 'commonjs'
   },
   module: {
     loaders: [
@@ -31,7 +31,8 @@ var config = {
       commonjs2: 'react',
       amd: 'react'
     },
-    moment: 'moment'
+    moment: 'moment',
+    'prop-types': 'prop-types',
   },
   plugins: []
 };

@@ -858,11 +858,11 @@ exports["ReactCalendar"] =
 	};
 
 	Day.propTypes = {
-	  date: _react2.default.PropTypes.object.isRequired,
-	  dayAgenda: _react2.default.PropTypes.bool,
-	  dayHeader: _react2.default.PropTypes.bool,
-	  dayHeaderFormat: _react2.default.PropTypes.string,
-	  dayFormat: _react2.default.PropTypes.string,
+	  date: _propTypes2.default.object.isRequired,
+	  dayAgenda: _propTypes2.default.bool,
+	  dayHeader: _propTypes2.default.bool,
+	  dayHeaderFormat: _propTypes2.default.string,
+	  dayFormat: _propTypes2.default.string,
 	  mods: _propTypes2.default.array
 	};
 
